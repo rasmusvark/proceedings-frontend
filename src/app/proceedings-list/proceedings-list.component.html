@@ -1,0 +1,20 @@
+<table class="table">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Personal ID</th>
+      <th>Email</th>
+      <th>Email Sent</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let proceeding of proceedingsList">
+      <td>{{ proceeding.id }}</td>
+      <td>{{ proceeding.name }}</td>
+      <td>{{ proceeding.personalId }}</td>
+      <td>{{ proceeding.email }}</td>
+      <td>{{ proceeding.emailSent ? 'Yes' : 'No' }}</td>
+    </tr>
+  </tbody>
+</table>
