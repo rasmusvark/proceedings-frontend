@@ -41,6 +41,7 @@ export class ProceedingsFormComponent {
           setTimeout(() => {
             this.emailSentMessage = null;
           }, 3000);
+          this.proceedingsForm.reset();
         }
       });
     }
