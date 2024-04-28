@@ -64,4 +64,33 @@ describe('ProceedingsListComponent', () => {
       )
     );
   });
+
+  it('should delete a proceeding when confirmDelete is called', () => {
+    const proceedingToDelete = component.proceedingsList[0];
+    spyOn(window, 'confirm').and.returnValue(true);
+    spyOn(component, 'deleteProceeding');
+  
+    component.confirmDelete(proceedingToDelete);
+  
+    expect(component.deleteProceeding).toHaveBeenCalledWith(proceedingToDelete.id);
+  });
+  
+  it('should not delete a proceeding when confirmDelete is cancelled', () => {
+    const proceedingToDelete = component.proceedingsList[0];
+    spyOn(window, 'confirm').and.returnValue(false);
+    spyOn(component, 'deleteProceeding');
+  
+    component.confirmDelete(proceedingToDelete);
+  
+    expect(component.deleteProceeding).not.toHaveBeenCalled();
+  });
+  
+  it('should toggle showReason property of a proceeding when toggleReason is called', () => {
+    const proceeding = component.proceedingsList[0];
+    const initialShowReason = proceeding.showReason;
+  
+    component.toggleReason(proceeding);
+  
+    expect(proceeding.showReason).toBe(!initialShowReason);
+  });
 });
