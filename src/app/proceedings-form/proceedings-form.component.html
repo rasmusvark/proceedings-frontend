@@ -1,19 +1,23 @@
 <form [formGroup]="proceedingsForm" (ngSubmit)="onSubmit()">
+  <p class="text-muted"><small>Fields marked with an * are mandatory.</small></p>
   <div class="form-group">
-    <label for="name">Name:</label>
+    <label for="name">* Name:</label>
     <input type="text" id="name" formControlName="name" class="form-control" required>
   </div>
   <div class="form-group">
-    <label for="personalId">Personal ID:</label>
+    <label for="personalId">* Personal ID:</label>
     <input type="text" id="personalId" formControlName="personalId" class="form-control" required>
   </div>
   <div class="form-group">
-    <label for="email">Email:</label>
+    <label for="email">* Email:</label>
     <input type="email" id="email" formControlName="email" class="form-control" required>
   </div>
   <div class="form-group">
-    <label for="reason">Reason for Proceeding:</label>
+    <label for="reason">* Reason for Proceeding:</label>
     <textarea id="reason" formControlName="reason" class="form-control" required></textarea>
+  </div>
+  <div *ngIf="emailSentMessage" class="alert alert-info">
+    {{ emailSentMessage }}
   </div>
   <button type="submit" [disabled]="!proceedingsForm.valid" class="btn btn-primary">Submit</button>
 </form>

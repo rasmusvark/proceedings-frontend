@@ -1,16 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { CommonModule } from '@angular/common'; // Import CommonModule
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-proceedings-list',
   templateUrl: './proceedings-list.component.html',
   styleUrls: ['./proceedings-list.component.scss'],
   standalone: true,
-  imports: [HttpClientModule, CommonModule] // Include CommonModule here
+  imports: [HttpClientModule, CommonModule]
 })
 export class ProceedingsListComponent implements OnInit {
   proceedingsList: any[] = [];
+  private apiUrl = 'http://localhost:8080/api/proceedings';
 
   constructor(private http: HttpClient) {}
 
@@ -19,7 +20,7 @@ export class ProceedingsListComponent implements OnInit {
   }
 
   fetchProceedings() {
-    this.http.get<any[]>('/api/proceedings').subscribe({
+    this.http.get<any[]>(this.apiUrl).subscribe({
       next: (proceedings) => {
         this.proceedingsList = proceedings;
       },
