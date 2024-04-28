@@ -8,7 +8,7 @@ import { CommonModule } from '@angular/common';
   templateUrl: './proceedings-form.component.html',
   styleUrls: ['./proceedings-form.component.scss'],
   standalone: true,
-  imports: [ReactiveFormsModule, HttpClientModule, CommonModule], // Include necessary modules here
+  imports: [ReactiveFormsModule, HttpClientModule, CommonModule],
 })
 export class ProceedingsFormComponent {
   proceedingsForm = this.fb.group({
@@ -18,7 +18,7 @@ export class ProceedingsFormComponent {
     reason: ['', Validators.required],
   });
 
-  emailSentMessage: string | null = null;  // To store the message about email status
+  emailSentMessage: string | null = null;
   private apiUrl = 'http://localhost:8080/api/proceedings';
 
   constructor(private fb: FormBuilder, private http: HttpClient) {}
@@ -27,15 +27,20 @@ export class ProceedingsFormComponent {
     if (this.proceedingsForm.valid) {
       this.http.post<any>(this.apiUrl, this.proceedingsForm.value).subscribe({
         next: (response) => {
-          console.log('Proceeding created:', response);
-          this.emailSentMessage = response.emailSent 
+          this.emailSentMessage = response.emailSent
             ? 'An email has been sent to the person subject to the procedure.'
             : 'Failed to send email.';
+          setTimeout(() => {
+            this.emailSentMessage = null;
+          }, 3000);
           this.proceedingsForm.reset();
         },
         error: (error) => {
           console.error('Error creating proceeding:', error);
           this.emailSentMessage = 'An error occurred while creating the proceeding.';
+          setTimeout(() => {
+            this.emailSentMessage = null;
+          }, 3000);
         }
       });
     }

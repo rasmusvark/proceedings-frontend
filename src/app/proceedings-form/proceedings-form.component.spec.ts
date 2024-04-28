@@ -8,8 +8,7 @@ describe('ProceedingsFormComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ProceedingsFormComponent ],
-      imports: [ ReactiveFormsModule ]
+      imports: [ ReactiveFormsModule, ProceedingsFormComponent]
     })
     .compileComponents();
   });
@@ -23,4 +22,16 @@ describe('ProceedingsFormComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('form invalid when empty', () => {
+    expect(component.proceedingsForm.valid).toBeFalsy();
+  });
+  
+  it('form valid when all required fields are filled', () => {
+    component.proceedingsForm.controls['name'].setValue("Test One");
+    component.proceedingsForm.controls['personalId'].setValue("1234567890");
+    component.proceedingsForm.controls['email'].setValue("test@example.com");
+    component.proceedingsForm.controls['reason'].setValue("Just because");
+    expect(component.proceedingsForm.valid).toBeTruthy();
+  });  
 });

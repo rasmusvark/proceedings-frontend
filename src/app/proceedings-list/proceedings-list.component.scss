@@ -1,6 +1,4 @@
-// You can define component-specific styles here
-.table {
-    width: 100%;
-    // Add more styles as needed
-  }
-  
+.proceedings-table-container {
+  max-height: 500px;
+  overflow-y: auto;
+}

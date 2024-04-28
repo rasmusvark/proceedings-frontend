@@ -1,9 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { FormsModule } from '@angular/forms';
 import { ProceedingsListComponent } from './proceedings-list.component';
-
-// Mock data or services may be imported here
-// import { ProceedingsService } from '../services/proceedings.service';
-// import { MockProceedingsService } from '../mocks/mock-proceedings.service';
+import { By } from '@angular/platform-browser';
 
 describe('ProceedingsListComponent', () => {
   let component: ProceedingsListComponent;
@@ -11,8 +10,7 @@ describe('ProceedingsListComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ProceedingsListComponent ],
-      // providers: [{ provide: ProceedingsService, useClass: MockProceedingsService }]
+      imports: [HttpClientTestingModule, FormsModule, ProceedingsListComponent],
     })
     .compileComponents();
   });
@@ -20,6 +18,30 @@ describe('ProceedingsListComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ProceedingsListComponent);
     component = fixture.componentInstance;
+    component.proceedingsList = [
+      {
+        id: 1,
+        name: 'Test One',
+        personalId: '1234567890',
+        email: 'test.one@example.com',
+        emailSent: true
+      },
+      {
+        id: 2,
+        name: 'Test Two',
+        personalId: '0987654321',
+        email: 'test.two@example.com',
+        emailSent: false
+      },
+      {
+        id: 3,
+        name: 'Test Three',
+        personalId: '1122334455',
+        email: 'test.three@example.com',
+        emailSent: true
+      },
+    ];
+    component.filteredProceedingsList = component.proceedingsList;
     fixture.detectChanges();
   });
 
@@ -27,6 +49,19 @@ describe('ProceedingsListComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  // Additional tests might include checking if the list is rendered correctly,
-  // if certain DOM elements are present based on the data, etc.
+  it('should populate filteredProceedingsList on init', () => {
+    expect(component.filteredProceedingsList.length).toBeGreaterThan(0);
+  });
+
+  it('should filter proceedings by name', () => {
+    const searchInput = fixture.debugElement.query(By.css('input[type="text"]'));
+    searchInput.nativeElement.value = 'test name';
+    searchInput.nativeElement.dispatchEvent(new Event('input'));
+    fixture.detectChanges();
+    expect(component.filteredProceedingsList).toEqual(
+      component.proceedingsList.filter(proceeding => 
+        proceeding.name.toLowerCase().includes('test name')
+      )
+    );
+  });
 });
